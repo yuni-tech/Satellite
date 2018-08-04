@@ -2,7 +2,7 @@ import Foundation
 import CoreLocation
 
 public typealias SatelliteLogFunc = (_ message: String) -> Void
-public typealias SatelliteListener = (_ lat: Double, _ lng: Double, _ acc: Double, _ error: Error?) -> Void
+public typealias SatelliteListener = (_ error: Error?, _ location: CLLocation?) -> Void
 
 public protocol SatelliteLogDelegate {
     func log(message: String)
