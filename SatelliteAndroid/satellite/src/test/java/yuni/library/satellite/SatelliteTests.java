@@ -19,6 +19,7 @@ public class SatelliteTests {
 
     @Before
     public void before() {
+        TestUtils.setup();
         mClock = new FakeClock();
         mLocation = null;
         mLocationList = new ArrayList<>();

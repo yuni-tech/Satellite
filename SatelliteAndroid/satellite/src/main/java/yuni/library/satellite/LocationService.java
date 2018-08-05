@@ -6,6 +6,8 @@ interface LocationService {
 
     void start(Satellite.Options options);
 
+    Location getLastLocation();
+
     void stop();
 
     void setListener(Satellite.Listener listener);

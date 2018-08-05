@@ -23,6 +23,11 @@ class AMapLocationService implements LocationService {
     }
 
     @Override
+    public Location getLastLocation() {
+        return mClient == null ? null : transformLocation(mClient.getLastKnownLocation());
+    }
+
+    @Override
     public void setListener(Satellite.Listener listener) {
         mListener = listener;
     }
@@ -59,7 +64,9 @@ class AMapLocationService implements LocationService {
 
     public void getOnce(Satellite.Options options, final Satellite.Listener listener) {
         mClient = new AMapLocationClient(mContext);
-        mClient.setLocationOption(toAMapOption(options));
+        AMapLocationClientOption option = toAMapOption(options);
+        option.setOnceLocation(true);
+        mClient.setLocationOption(option);
         mClient.setLocationListener(new AMapLocationListener() {
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
@@ -71,10 +78,9 @@ class AMapLocationService implements LocationService {
 
     private static AMapLocationClientOption toAMapOption(Satellite.Options options) {
         AMapLocationClientOption aMapOption = new AMapLocationClientOption();
-        aMapOption.setOnceLocation(options.once);
         aMapOption.setInterval(options.interval);
         aMapOption.setNeedAddress(options.address);
-        aMapOption.setLocationCacheEnable(options.cache);
+        aMapOption.setLocationCacheEnable(options.isCache());
         switch (options.mode) {
             case Satellite.MODE_LOW:
                 aMapOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);

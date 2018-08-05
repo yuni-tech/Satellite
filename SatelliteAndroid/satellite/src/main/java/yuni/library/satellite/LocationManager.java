@@ -27,7 +27,7 @@ class LocationManager {
 
     public Location getLastLocation() {
         if (mLastLocation == null) {
-            return mLastLocation;
+            return mLocationService.getLastLocation();
         }
         return mLastLocation.copy();
     }
@@ -73,15 +73,14 @@ class LocationManager {
     }
 
     public void getLocationOnce(Satellite.Options options, final Satellite.Listener listener) {
-        options = options.copy();
-        if (mLastLocation != null && options.cache && !options.address) {
+        if (mLastLocation != null && options.isCache() && !options.address) {
             long now = getCurrentTime();
             if (now - mLastLocation.getTime() < options.cacheTime) {
                 listener.onLocationChanged(mLastLocation.copy());
                 return;
             }
         }
-        mLocationService.getOnce(options, location -> {
+        mLocationService.getOnce(options.copy(), location -> {
             mLastLocation = location;
             listener.onLocationChanged(location);
         });
@@ -98,17 +97,18 @@ class LocationManager {
     }
 
     private synchronized void notifyLocationChanged(Location location) {
+        mLastLocation = location;
+
         for (int i=mHolderList.size()-1; i>=0; i--) {
             ContinueLocationHolder holder = mHolderList.get(i);
             if (holder.ownerRef.get() == null) {
-                mHolderList.remove(i);
                 warnWeakReleased(holder.ownerKey);
                 continue;
             }
             holder.listener.onLocationChanged(location);
         }
 
-        if (mHolderList.isEmpty()) {
+        if (computeOptions()) {
             startOrStop();
         }
     }
@@ -150,6 +150,7 @@ class LocationManager {
         boolean changed = false;
         if (mOptions == null) {
             mOptions = new Satellite.Options();
+            changed = true;
         }
 
         if (mOptions.mode != mode) {

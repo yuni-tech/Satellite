@@ -7,9 +7,15 @@ public class LocationServiceMock implements LocationService {
     private Satellite.Options mOptions;
 
     private FakeClock mClock;
+    private Location mLastLocation;
 
     public LocationServiceMock(FakeClock clock) {
         mClock = clock;
+    }
+
+    @Override
+    public Location getLastLocation() {
+        return mLastLocation;
     }
 
     @Override
@@ -50,6 +56,7 @@ public class LocationServiceMock implements LocationService {
         }
         Location location = new Location();
         location.setTime(mClock.now);
+        mLastLocation = location;
         mListener.onLocationChanged(location);
     }
 

@@ -25,6 +25,8 @@ public class LocationManagerTests {
 
     @Before
     public void before() {
+        TestUtils.setup();
+
         mClock = new FakeClock();
         mLocationServiceMock = new LocationServiceMock(mClock);
 
@@ -47,7 +49,6 @@ public class LocationManagerTests {
     @Test
     public void testGetOnceNotCache() {
         Satellite.Options options = new Satellite.Options();
-        options.cache = false;
         mLocationManager.getLocationOnce(options, location -> mLocation = location);
         assertNotNull(mLocation);
         assertNotNull(mLocationManager.getLastLocation());
@@ -57,7 +58,6 @@ public class LocationManagerTests {
     @Test
     public void testGetOnceCache() {
         Satellite.Options options = new Satellite.Options();
-        options.cache = true;
         options.cacheTime = 1000;
 
         mLocationManager.getLocationOnce(options, location -> mLocation = location);

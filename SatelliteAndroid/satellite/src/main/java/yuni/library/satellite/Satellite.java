@@ -20,10 +20,6 @@ public class Satellite {
      * 定位参数配置
      */
     public static class Options {
-        /**
-         *  为true时只获取一次，为false时开启持续定位
-         */
-        public boolean once = false;
 
         /**
          *  当once为false，此值有效，持续定位间隔
@@ -36,12 +32,7 @@ public class Satellite {
         public boolean address = false;
 
         /**
-         * 是否可以用缓存的位置
-         */
-        public boolean cache = false;
-
-        /**
-         * 当cache为true，设置可获取缓存位置时间，如果最后一次位置超时了则重新获取
+         * 当cacheTime大于0，设置可获取缓存位置时间，如果最后一次位置超时了则重新获取
          */
         public long cacheTime = 0;
 
@@ -50,12 +41,14 @@ public class Satellite {
          */
         public int mode = MODE_HIGH;
 
+        public boolean isCache() {
+            return cacheTime > 0;
+        }
+
         public Options copy() {
             Options options = new Options();
-            options.once = once;
             options.interval = interval;
             options.address = address;
-            options.cache = cache;
             options.cacheTime = cacheTime;
             options.mode = mode;
             return options;
@@ -66,26 +59,22 @@ public class Satellite {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Options options = (Options) o;
-            return once == options.once &&
-                    interval == options.interval &&
+            return interval == options.interval &&
                     address == options.address &&
-                    cache == options.cache &&
                     cacheTime == options.cacheTime &&
                     mode == options.mode;
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(once, interval, address, cache, cacheTime, mode);
+            return Objects.hash(interval, address, cacheTime, mode);
         }
 
         @Override
         public String toString() {
             return "Options{" +
-                    "once=" + once +
                     ", interval=" + interval +
                     ", address=" + address +
-                    ", cache=" + cache +
                     ", cacheTime=" + cacheTime +
                     ", mode=" + mode +
                     '}';
@@ -134,12 +123,10 @@ public class Satellite {
     }
 
     public void getLocationOnce(Options options, Listener listener) {
-        options.once = true;
         mLocationManager.getLocationOnce(options, listener);
     }
 
     public LocationHandler createContinue(Options options, Listener listener) {
-        options.once = false;
         return new LocationHandler(options, listener);
     }
 
@@ -159,7 +146,6 @@ public class Satellite {
         }
 
         public void setOptions(Options options) {
-            options.once = false;
             mOptions = options;
             if (mHolder != null) {
                 mLocationManager.updateOptions(mHolder, mOptions);
