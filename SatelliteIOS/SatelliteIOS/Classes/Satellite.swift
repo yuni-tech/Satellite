@@ -47,6 +47,10 @@ public struct Satellite {
         self.locationManager.getLocationOnce(options: options, listener: listener)
     }
     
+    public func createContinue(options: Options, listener: @escaping SatelliteListener) -> LocationHandler {
+        return LocationHandler(self.locationManager, options: options, listener: listener)
+    }
+    
     public class LocationHandler {
         
         weak var locationManager: LocationManager?
@@ -54,7 +58,7 @@ public struct Satellite {
         let listener: SatelliteListener
         var holder: LocationManager.ContinueLocationHolder?
         
-        init(locationManager: LocationManager, options: Options, listener: @escaping SatelliteListener) {
+        init(_ locationManager: LocationManager, options: Options, listener: @escaping SatelliteListener) {
             self.locationManager = locationManager
             self.listener = listener
             self.options = options
