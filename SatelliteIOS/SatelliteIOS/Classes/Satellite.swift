@@ -13,13 +13,15 @@ public struct Satellite {
     public static let shared: Satellite = Satellite()
     
     public struct Options {
-        var activityType: CLActivityType = CLActivityType.other
         var distanceFilter: CLLocationDistance = 10
         var desiredAccuracy: CLLocationAccuracy = kCLLocationAccuracyHundredMeters
+        var cacheTime: Int64 = 0
+        var cache: Bool {
+            return cacheTime > 0
+        }
         
         public func copy() -> Options {
             var options = Options()
-            options.activityType = activityType
             options.distanceFilter = distanceFilter
             options.desiredAccuracy = desiredAccuracy
             return options

@@ -12,6 +12,8 @@ public protocol LocationService {
     
     var isStarted: Bool { get }
     
+    var lastLocation: CLLocation? { get }
+    
     func start(options: Satellite.Options)
     
     func stop()
@@ -33,10 +35,16 @@ class SystemLocationService : NSObject, LocationService {
     var cacheLocations: [CLLocation] = []
     var lock: NSRecursiveLock = NSRecursiveLock()
     
+    var lastLocation: CLLocation? {
+        return self.locationManager.location
+    }
+    
     override init() {
         locationManager = CLLocationManager()
         super.init()
         locationManager.delegate = self
+        locationManager.pausesLocationUpdatesAutomatically = false
+        locationManager.activityType = .other
     }
     
     func start(options: Satellite.Options) {
@@ -46,11 +54,9 @@ class SystemLocationService : NSObject, LocationService {
         if !isStarted {
             locationManager.stopUpdatingLocation()
         }
-        
-        locationManager.activityType = options.activityType
+    
         locationManager.distanceFilter = options.distanceFilter
         locationManager.desiredAccuracy = options.desiredAccuracy
-        
         locationManager.startUpdatingLocation()
     }
     
@@ -67,7 +73,6 @@ class SystemLocationService : NSObject, LocationService {
     func updateOptions(_ options: Satellite.Options) {
         lock.lock(); defer { lock.unlock() }
         locationManager.stopUpdatingLocation()
-        locationManager.activityType = options.activityType
         locationManager.distanceFilter = options.distanceFilter
         locationManager.desiredAccuracy = options.desiredAccuracy
         locationManager.startUpdatingLocation()
