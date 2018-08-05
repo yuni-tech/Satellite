@@ -146,7 +146,7 @@ public class Satellite {
         }
 
         public void setOptions(Options options) {
-            mOptions = options;
+            mOptions = options.copy();
             if (mHolder != null) {
                 mLocationManager.updateOptions(mHolder, mOptions);
             }

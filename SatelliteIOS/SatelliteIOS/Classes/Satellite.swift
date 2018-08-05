@@ -28,16 +28,59 @@ public struct Satellite {
         }
     }
     
-    var log: SatelliteLogFunc = { message in print(message) }
-    
-    private var locationManager: LocationManager
-    
-    public init() {
-        self.init(locationService: SystemLocationService())
+    public var log: SatelliteLogFunc = { message in print(message) }
+    public var lastLocation: CLLocation? {
+        return locationManager.lastLocation
     }
     
-    public init(locationService: LocationService) {
-        locationManager = LocationManager(locationService: locationService)
+    private var locationManager: LocationManager!
+    
+    public mutating func setup(locationService: LocationService? = nil) {
+        if locationService == nil {
+            self.locationManager = LocationManager(locationService: SystemLocationService())
+        } else {
+            self.locationManager = LocationManager(locationService: locationService!)
+        }
+    }
+    
+    public func getLocationOnce(options: Options, listener: @escaping SatelliteListener) {
+        self.locationManager.getLocationOnce(options: options, listener: listener)
+    }
+    
+    public class LocationHandler {
+        
+        weak var locationManager: LocationManager?
+        var options: Options
+        let listener: SatelliteListener
+        var holder: LocationManager.ContinueLocationHolder?
+        
+        init(locationManager: LocationManager, options: Options, listener: @escaping SatelliteListener) {
+            self.locationManager = locationManager
+            self.listener = listener
+            self.options = options
+        }
+        
+        public func setOptions(_ options: Options) {
+            self.options = options.copy()
+            if let holder = self.holder {
+                self.locationManager?.updateOptions(holder: holder, options: self.options)
+            }
+        }
+        
+        public func start() {
+            if self.holder != nil {
+                return
+            }
+            self.holder = self.locationManager?.startContinue(owner: self, options: options, listener: listener)
+        }
+        
+        public func stop() {
+            if let holder = self.holder {
+                self.locationManager?.stopContinue(holder: holder)
+                self.holder = nil
+            }
+        }
+        
     }
     
 }
