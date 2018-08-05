@@ -1,4 +1,4 @@
-# Satellite
+# Satellite (Developing)
 
 Satellite 皆在提供一个稳定、省电的移动定位库。
 
@@ -18,10 +18,8 @@ compile 'yuni.library.satellite:+'
 
 ```java
 Satellite.Options options = new Satellite.Options();
-options.once = true; // 也可不设置，getLocationOnce自动会设置
 
 // 若要使用缓存，设置缓存时间
-options.cache = true;
 options.cacheTime = 5000; // 可获取5秒定位到的缓存位置，否则重新获取
 
 // 获取
@@ -58,4 +56,52 @@ handler.setOptions(options); // 更改后会立即生效
 
 ## iOS
 
-Comming Soon...
+### Install
+
+```
+pod 'SatelliteIOS'
+```
+
+### Usage
+
+单次定位:
+
+```swift
+var options = Satellite.Options()
+options.distanceFilter = 10 // 设置distanceFilter
+options.desiredAccuracy = 20 // 设置精度 20米
+
+
+// 在若要使用缓存，设置缓存时间，仅限单次定位
+options.cacheTime = 5000; // 可获取5秒定位到的缓存位置，否则重新获取
+
+Satellite.shared.getLocationOnce(options: options) { error, location in 
+  // ...
+}
+```
+
+持续定位:
+
+```swift
+var options = Satellite.Options()
+options.distanceFilter = 10 // 设置distanceFilter
+options.desiredAccuracy = 20 // 设置精度 20米
+
+let handler = Satellite.shared.createContinue(options: options) { error, location in 
+  //...
+}
+
+// 开始
+handler.start();
+
+// 停止
+handler.stop();
+
+// 更改定位参数
+var options = new Satellite.Options();
+options.distanceFilter = ...
+...
+handler.setOptions(options); // 更改后会立即生效
+```
+
+## MIT License
