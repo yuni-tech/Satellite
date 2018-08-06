@@ -36,11 +36,12 @@ class LocationServiceMock : LocationService {
     }
     
     func getOnce(options: Satellite.Options, listener: @escaping SatelliteListener) {
-        listener(nil, makeLocation())
+        fireLocation(once: true)
+        listener(nil, lastLocation)
     }
     
-    func fireLocation() {
-        if !isStarted {
+    func fireLocation(once: Bool = false) {
+        if !isStarted && !once {
             return
         }
         lastLocation = makeLocation()

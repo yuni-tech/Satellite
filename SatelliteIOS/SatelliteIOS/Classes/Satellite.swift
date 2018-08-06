@@ -12,10 +12,10 @@ public class Satellite {
     
     public static let shared: Satellite = Satellite()
     
-    public struct Options {
+    public class Options {
         public var distanceFilter: CLLocationDistance = 10
         public var desiredAccuracy: CLLocationAccuracy = kCLLocationAccuracyHundredMeters
-        public var cacheTime: Int64 = 0
+        public var cacheTime: TimeInterval = 0
         
         var cache: Bool {
             return cacheTime > 0
@@ -23,7 +23,7 @@ public class Satellite {
         
         public init() {}
         
-        public func copy() -> Options {
+        public func clone() -> Options {
             var options = Options()
             options.cacheTime = cacheTime
             options.distanceFilter = distanceFilter
@@ -69,7 +69,7 @@ public class Satellite {
         }
         
         public func setOptions(_ options: Options) {
-            self.options = options.copy()
+            self.options = options.clone()
             if let holder = self.holder {
                 self.locationManager?.updateOptions(holder: holder, options: self.options)
             }

@@ -17,7 +17,7 @@ class LocationManager {
     private var holderList: [ContinueLocationHolder] = []
     
     var lastLocation: CLLocation? {
-        return locationService.lastLocation
+        return _lastLocation ?? locationService.lastLocation
     }
     
     private var _lastLocation: CLLocation?
@@ -72,7 +72,7 @@ class LocationManager {
     func updateOptions(holder: ContinueLocationHolder, options: Satellite.Options) {
         lock.lock(); defer { lock.unlock() }
         
-        holder.options = options.copy()
+        holder.options = options.clone()
         if computeOptions() {
             startOrStop()
         }
@@ -81,12 +81,12 @@ class LocationManager {
     func getLocationOnce(options: Satellite.Options, listener: @escaping SatelliteListener) {
         if let lastLocation = self.lastLocation, options.cache {
             let now = getCurrentTime()
-            if now - Int64(lastLocation.timestamp.timeIntervalSince1970 * 1000) < options.cacheTime {
+            if now - lastLocation.timestamp.timeIntervalSince1970 < options.cacheTime {
                 listener(nil, lastLocation)
                 return
             }
         }
-        locationService.getOnce(options: options.copy(), listener: listener)
+        locationService.getOnce(options: options.clone(), listener: listener)
     }
     
     func checkOwners() {
@@ -95,8 +95,8 @@ class LocationManager {
         }
     }
     
-    func getCurrentTime() -> Int64 {
-        return Int64(Date().timeIntervalSince1970 * 1000)
+    func getCurrentTime() -> TimeInterval {
+        return Date().timeIntervalSince1970
     }
     
     private func computeOptions() -> Bool {
@@ -105,7 +105,7 @@ class LocationManager {
         var distanceFilter: CLLocationDistance = 999999999
         var desiredAccuracy: CLLocationAccuracy = 999999999
         
-        for i in (holderList.count-1...0) {
+        for i in (0..<holderList.count).reversed() {
             let holder = holderList[i]
             if holder.owner == nil {
                 holderList.remove(at: i)
@@ -142,6 +142,8 @@ class LocationManager {
             options.distanceFilter = distanceFilter
             changed = true
         }
+        
+        self.usingOptions = options
         
         if !self.locationService.isStarted {
             return true
