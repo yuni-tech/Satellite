@@ -8,20 +8,24 @@ public protocol SatelliteLogDelegate {
     func log(message: String)
 }
 
-public struct Satellite {
+public class Satellite {
     
     public static let shared: Satellite = Satellite()
     
     public struct Options {
-        var distanceFilter: CLLocationDistance = 10
-        var desiredAccuracy: CLLocationAccuracy = kCLLocationAccuracyHundredMeters
-        var cacheTime: Int64 = 0
+        public var distanceFilter: CLLocationDistance = 10
+        public var desiredAccuracy: CLLocationAccuracy = kCLLocationAccuracyHundredMeters
+        public var cacheTime: Int64 = 0
+        
         var cache: Bool {
             return cacheTime > 0
         }
         
+        public init() {}
+        
         public func copy() -> Options {
             var options = Options()
+            options.cacheTime = cacheTime
             options.distanceFilter = distanceFilter
             options.desiredAccuracy = desiredAccuracy
             return options
@@ -35,7 +39,7 @@ public struct Satellite {
     
     private var locationManager: LocationManager!
     
-    public mutating func setup(locationService: LocationService? = nil) {
+    public func setup(locationService: LocationService? = nil) {
         if locationService == nil {
             self.locationManager = LocationManager(locationService: SystemLocationService())
         } else {

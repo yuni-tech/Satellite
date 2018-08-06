@@ -13,7 +13,9 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		7A2E7D582116F2EC00D2A4C1 /* LocationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2E7D572116F2EC00D2A4C1 /* LocationManagerTests.swift */; };
+		7A2E7D5A2116F59A00D2A4C1 /* LocationServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2E7D592116F59A00D2A4C1 /* LocationServiceMock.swift */; };
+		7A2E7D5C2116F8C800D2A4C1 /* ArrayUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2E7D5B2116F8C800D2A4C1 /* ArrayUtils.swift */; };
 		E30BFA2238A20BE18A66BF05 /* Pods_SatelliteIOS_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81CB93A6221C9E029E59D215 /* Pods_SatelliteIOS_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,8 +42,10 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* SatelliteIOS_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SatelliteIOS_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		6B836C684DD71958104AEFCC /* Pods-SatelliteIOS_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SatelliteIOS_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SatelliteIOS_Tests/Pods-SatelliteIOS_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		7A2E7D572116F2EC00D2A4C1 /* LocationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerTests.swift; sourceTree = "<group>"; };
+		7A2E7D592116F59A00D2A4C1 /* LocationServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceMock.swift; sourceTree = "<group>"; };
+		7A2E7D5B2116F8C800D2A4C1 /* ArrayUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayUtils.swift; sourceTree = "<group>"; };
 		81CB93A6221C9E029E59D215 /* Pods_SatelliteIOS_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SatelliteIOS_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3978575AAD60C4E4AD50BAB /* Pods-SatelliteIOS_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SatelliteIOS_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SatelliteIOS_Example/Pods-SatelliteIOS_Example.release.xcconfig"; sourceTree = "<group>"; };
 		CF9D0C4FF6552757A1D62587 /* SatelliteIOS.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SatelliteIOS.podspec; path = ../SatelliteIOS.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -126,8 +130,10 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				607FACEB1AFB9204008FA782 /* Tests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
+				7A2E7D572116F2EC00D2A4C1 /* LocationManagerTests.swift */,
+				7A2E7D592116F59A00D2A4C1 /* LocationServiceMock.swift */,
+				7A2E7D5B2116F8C800D2A4C1 /* ArrayUtils.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -354,7 +360,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				7A2E7D5A2116F59A00D2A4C1 /* LocationServiceMock.swift in Sources */,
+				7A2E7D5C2116F8C800D2A4C1 /* ArrayUtils.swift in Sources */,
+				7A2E7D582116F2EC00D2A4C1 /* LocationManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
