@@ -53,7 +53,7 @@ class LocationManager {
         
         var removed = false
         for i in (0...holderList.count-1) {
-            if holder == holderList[i] {
+            if holder === holderList[i] {
                 holderList.remove(at: i)
                 removed = true
                 break
@@ -182,12 +182,7 @@ class LocationManager {
         }
     }
     
-    class ContinueLocationHolder : Equatable {
-        
-        static func == (lhs: ContinueLocationHolder, rhs: ContinueLocationHolder) -> Bool {
-            return lhs == rhs
-        }
-        
+    class ContinueLocationHolder {
         weak var owner: AnyObject?
         var options: Satellite.Options!
         var listener: SatelliteListener!

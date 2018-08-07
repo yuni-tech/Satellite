@@ -82,7 +82,7 @@ class LocationManagerTests: QuickSpec {
             
             it("test") {
                 let times = 10
-                var options = Satellite.Options()
+                let options = Satellite.Options()
                 let locationHandler = Satellite.shared.createContinue(options: options) { error, location in
                     expect(location).toNot(beNil())
                     locations.append(location!)
@@ -142,6 +142,14 @@ class LocationManagerTests: QuickSpec {
                 
                 expect(locationService.options?.desiredAccuracy).to(equal(optionsC.desiredAccuracy))
                 expect(locationService.options?.distanceFilter).to(equal(optionsC.distanceFilter))
+                
+                let optionsD = Satellite.Options()
+                optionsD.desiredAccuracy = 20
+                optionsD.distanceFilter = 5
+                handlerA.setOptions(optionsD)
+                
+                expect(locationService.options?.desiredAccuracy).to(equal(optionsD.desiredAccuracy))
+                expect(locationService.options?.distanceFilter).to(equal(optionsD.distanceFilter))
             }
             
         }
