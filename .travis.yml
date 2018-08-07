@@ -11,4 +11,4 @@ language: objective-c
 # - pod install --project-directory=Example
 script:
 - set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace SatelliteIOS/Example/SatelliteIOS.xcworkspace -scheme SatelliteIOS-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty
-- pod lib lint
+- cd SatelliteIOS && pod lib lint
