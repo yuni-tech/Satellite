@@ -131,7 +131,7 @@ class LocationManager {
             changed = true
         }
         
-        var options = self.usingOptions!
+        let options = self.usingOptions!
         
         if options.desiredAccuracy != desiredAccuracy {
             options.desiredAccuracy = desiredAccuracy

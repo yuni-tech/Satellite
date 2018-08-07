@@ -24,7 +24,7 @@ public class Satellite {
         public init() {}
         
         public func clone() -> Options {
-            var options = Options()
+            let options = Options()
             options.cacheTime = cacheTime
             options.distanceFilter = distanceFilter
             options.desiredAccuracy = desiredAccuracy
