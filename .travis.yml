@@ -4,11 +4,11 @@
 
 osx_image: xcode9.3
 language: objective-c
-# cache: cocoapods
-# podfile: Example/Podfile
-# before_install:
-# - gem install cocoapods # Since Travis is not always on latest version
-# - pod install --project-directory=Example
+cache: cocoapods
+podfile: SatelliteIOS/Example/Podfile
+before_install:
+- gem install cocoapods # Since Travis is not always on latest version
+- pod install --project-directory=SatelliteIOS/Example
 script:
 - set -o pipefail && xcodebuild test -destination 'platform=iOS Simulator,name=iPhone 7,OS=11.3' -enableCodeCoverage YES -workspace SatelliteIOS/Example/SatelliteIOS.xcworkspace -scheme SatelliteIOS-Example -sdk iphonesimulator11.3 ONLY_ACTIVE_ARCH=NO | xcpretty
 - cd SatelliteIOS && pod lib lint
